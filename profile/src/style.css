@@ -1,0 +1,205 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  width: 100%;
+  text-align: center;
+  background-color: #222222;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+header .blog-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0px auto;
+  text-align: center;
+  vertical-align: bottom;
+}
+header .blog-title h1 {
+  color: #FFFFFF;
+  background-color: #333333;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 15px;
+  margin: 0 2px;
+  border-radius: 10px 10px 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 8px;
+}
+header .blog-title h1 .tab-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+}
+header .blog-title h1 .tab-close {
+  font-size: 18px;
+  line-height: 1;
+  opacity: 0.5;
+  margin-left: auto;
+  cursor: pointer;
+}
+header .blog-title h1 .tab-close:hover {
+  opacity: 1;
+}
+header .blog-title h1 a {
+  color: #DDDDDD;
+  text-decoration: none;
+}
+header .blog-title h1 a:hover {
+  -webkit-text-decoration: underline 3px;
+  text-decoration: underline 3px;
+}
+header .blog-title h1:last-child {
+  background-color: #444444;
+}
+
+main {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  height: 100%;
+  overflow: scroll;
+}
+main .terminal {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: #5E2750;
+  color: #FFFFFF;
+  padding: 0px 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+  font-weight: 700; /* make displayed text bold */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 0; /* allow flex child to shrink */
+}
+main .terminal #term-screen {
+  white-space: pre-wrap;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  overflow: auto;
+  padding-right: 6px;
+}
+main .terminal #term-screen h3 {
+  font-size: 1.5em;
+}
+main .terminal #term-screen h4 {
+  font-size: 1.2em;
+}
+main .terminal #term-screen h3,
+main .terminal #term-screen h4 {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font-weight: 700;
+}
+main .terminal .term-line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 6px;
+}
+main .terminal .input-line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-weight: 700;
+}
+main .terminal .input-line.hidden {
+  display: none;
+}
+main .terminal .prompt {
+  color: #2b8a3e;
+  font-weight: 600;
+}
+main .terminal .prompt-user {
+  color: #2b8a3e;
+  font-weight: 600;
+}
+main .terminal .prompt-colon {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+main .terminal .prompt-path {
+  color: #5BCEFA;
+  font-weight: 600;
+}
+main .terminal .prompt-dollar {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+main .terminal .cmd {
+  outline: none;
+}
+main .terminal .cursor {
+  display: inline-block;
+  -webkit-animation: blink 1s steps(1) infinite;
+  animation: blink 1s steps(1) infinite;
+}
+@-webkit-keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+main .terminal .help-cmd {
+  color: #444;
+}

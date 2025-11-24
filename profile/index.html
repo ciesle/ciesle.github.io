@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>プロフィール - 薊畑</title>
+	<meta charset="utf8">
+	<link href="src/style.css" rel="stylesheet">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="薊畑 -プロフィール-">
+	<meta name="twitter:description" content="/bin/bash">
+	<meta name="twitter:image" content="/common/icon.png">
+</head>
+
+<body>
+
+	<header>
+		<div class="blog-title">
+			<h1>
+				<img src="../common/icon.png" alt="" class="tab-icon">
+				<a href="../">薊畑</a>
+				<span class="tab-close">×</span>
+			</h1>
+			<h1>
+				プロフィール
+				<span class="tab-close">×</span>
+			</h1>
+		</div>
+	</header>
+
+
+	<main class="profile-main">
+		<div class="terminal" id="terminal" tabindex="0" aria-label="terminal">
+			<div class="term-screen" id="term-screen" aria-live="polite">
+				<div class="input-line" id="input-line">
+					<span class="prompt-user" id="prompt">guest@ciesle-farm</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>&nbsp;<span class="cmd" id="cmd"></span><span class="cursor" id="cursor">█</span>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script src="src/terminal.js" defer></script>
+</body>
+
+</html>
