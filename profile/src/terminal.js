@@ -3,7 +3,7 @@
 	const terminal = document.getElementById('terminal');
 	const screen = document.getElementById('term-screen');
 	const cmdEl = document.getElementById('cmd');
-	const promptStr = 'guest@ciesle-farm:~$';
+	const promptStr = 'guest@ciesle-field:~$';
 	let buffer = '';
 	let yesInterval = null;
 	let yesActive = false;
@@ -44,7 +44,7 @@
 		// Split prompt into: user@host : path $
 		const userHost = document.createElement('span');
 		userHost.className = 'prompt-user';
-		userHost.textContent = 'guest@ciesle-farm';
+		userHost.textContent = 'guest@ciesle-field';
 		const colon = document.createElement('span');
 		colon.className = 'prompt-colon';
 		colon.textContent = ':';
@@ -141,7 +141,7 @@
 		if (args.length === 0) return;
 		const cmd = args[0];
 		if (cmd === 'whoami') { appendLine('ciesle(a.k.a. thistle)'); ensureScrollBottom(); return; }
-		if (cmd === 'pwd') { appendLine('ciesle-farm (ciesle\'s homepage)'); ensureScrollBottom(); return; }
+		if (cmd === 'pwd') { appendLine('ciesle-field (ciesle\'s homepage)'); ensureScrollBottom(); return; }
 		if (cmd === 'ls') { filesList.forEach(f => appendLine(f)); ensureScrollBottom(); return; }
 		if (cmd === 'cat') {
 			if (args.length < 2) { appendLine('cat: missing operand'); ensureScrollBottom(); return; }

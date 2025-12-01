@@ -24,7 +24,7 @@ header h2 {
 .main-container {
   margin: auto 20px;
 }
-@media (min-width: 800px) {
+@media (min-width: 1200px) {
   .main-container {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -32,7 +32,7 @@ header h2 {
     gap: 20px;
   }
 }
-@media (max-width: 799px) {
+@media (max-width: 1199px) {
   .main-container {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -50,7 +50,7 @@ header h2 {
   flex-basis: 34%;
   min-width: 250px;
 }
-@media (max-width: 799px) {
+@media (max-width: 1199px) {
   .main-container aside {
     margin: 0 20px;
     max-width: 100%;
@@ -64,7 +64,7 @@ main {
   flex-grow: 1;
   max-width: 66%;
 }
-@media (max-width: 799px) {
+@media (max-width: 1199px) {
   main {
     max-width: 100%;
   }
@@ -92,7 +92,7 @@ main h2 {
 .news {
   margin: 30px 20px 0;
 }
-@media (max-width: 799px) {
+@media (max-width: 1199px) {
   .news {
     margin-bottom: 50px;
   }
@@ -127,7 +127,7 @@ main h2 {
   margin-left: auto;
   margin: 0px 20px;
 }
-@media (max-width: 799px) {
+@media (max-width: 1199px) {
   .other-sites {
     margin: 30px 20px 0;
   }
@@ -259,7 +259,7 @@ footer .author {
   -webkit-box-shadow: #4444AA 0.2em 0.2em 0.1em;
   box-shadow: #4444AA 0.2em 0.2em 0.1em;
 }
-@media (max-width: 799px) {
+@media (max-width: 1199px) {
   footer .author {
     padding-right: 50px;
   }
