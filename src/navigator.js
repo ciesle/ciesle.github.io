@@ -1,4 +1,6 @@
 import '../common/waves.js';
+import './fish.js';
+import './night-sky.js';
 import { RandomVelocity, moveBody, placeBodies, tiltAngle } from './water-motion.js';
 
 const water = document.querySelector('.water');

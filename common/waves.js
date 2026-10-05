@@ -1,5 +1,8 @@
 import { RandomVelocity } from '../src/water-motion.js';
 
+const waveOffsets = new WeakMap();
+export function getWaveOffset(element) { return waveOffsets.get(element) ?? 0; }
+
 // Shared by the top page and every article header/footer.
 const waves = [...document.querySelectorAll('[data-wave]')].map(element => ({
   element,
@@ -19,6 +22,7 @@ function tick(time) {
   for (const wave of waves) {
     wave.offset += wave.velocity.advance(seconds);
     wave.offset = ((wave.offset + wave.period / 2) % wave.period + wave.period) % wave.period - wave.period / 2;
+    waveOffsets.set(wave.element, wave.offset);
     wave.element.setAttribute('transform', `translate(${wave.offset.toFixed(3)} 0)`);
   }
   frame = requestAnimationFrame(tick);

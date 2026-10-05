@@ -309,4 +309,5 @@
 	execute('ls');
 	updateCursor();
 	fitViewport();
+	cmdEl.focus({ preventScroll: true });
 })();
