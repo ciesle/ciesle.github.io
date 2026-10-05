@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
 <head>
 	<title>プロフィール - 薊畑</title>
-	<meta charset="utf8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="icon" href="/common/icon.ico">
 	<link href="src/style.css" rel="stylesheet">
 	<meta name="twitter:card" content="summary">
@@ -30,12 +31,13 @@
 
 
 	<main class="profile-main">
-		<div class="terminal" id="terminal" tabindex="0" aria-label="terminal">
+		<div class="terminal" id="terminal" aria-label="ターミナル">
 			<div class="term-screen" id="term-screen" aria-live="polite">
-				<div class="input-line" id="input-line">
-					<span class="prompt-user" id="prompt">guest@ciesle-field</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>&nbsp;<span class="cmd" id="cmd"></span><span class="cursor" id="cursor">█</span>
-				</div>
+				<form class="input-line" id="input-line" autocomplete="off">
+					<span class="prompt-user" id="prompt">guest@ciesle-field</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>&nbsp;<span class="command-field"><input class="cmd" id="cmd" type="text" aria-label="コマンド" enterkeyhint="send" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"><span id="cursor-measure" class="cursor-measure" aria-hidden="true"></span><span id="terminal-cursor" class="terminal-cursor" aria-hidden="true"></span></span>
+				</form>
 			</div>
+			<button id="stop-command" class="stop-command" type="button" hidden>中断（Ctrl+C）</button>
 		</div>
 	</main>
 

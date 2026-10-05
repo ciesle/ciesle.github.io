@@ -3,10 +3,25 @@
 	const terminal = document.getElementById('terminal');
 	const screen = document.getElementById('term-screen');
 	const cmdEl = document.getElementById('cmd');
-	const promptStr = 'guest@ciesle-field:~$';
-	let buffer = '';
+	const stopButton = document.getElementById('stop-command');
+	const cursor = document.getElementById('terminal-cursor');
+	const cursorMeasure = document.getElementById('cursor-measure');
+	let composing = false;
 	let yesInterval = null;
 	let yesActive = false;
+
+	function updateCursor() {
+		cursorMeasure.textContent = cmdEl.value.slice(0, cmdEl.selectionStart ?? cmdEl.value.length);
+		const x = cursorMeasure.getBoundingClientRect().width - cmdEl.scrollLeft;
+		cursor.style.setProperty('--cursor-x', `${Math.max(0, Math.min(x, cmdEl.clientWidth - 10))}px`);
+	}
+	terminal.classList.add('block-cursor-ready');
+	for (const event of ['input', 'keyup', 'click', 'select', 'scroll', 'focus', 'compositionend']) {
+		cmdEl.addEventListener(event, () => requestAnimationFrame(updateCursor));
+	}
+	document.addEventListener('selectionchange', () => {
+		if (document.activeElement === cmdEl) requestAnimationFrame(updateCursor);
+	});
 
 	// prefer scrolling the profile main container so the terminal area (under header) scrolls
 	function ensureScrollBottom() {
@@ -40,7 +55,7 @@
 
 	function appendExecutedCommand(cmdText) {
 		const d = document.createElement('div');
-		d.className = 'line';
+		d.className = 'line command-line';
 		// Split prompt into: user@host : path $
 		const userHost = document.createElement('span');
 		userHost.className = 'prompt-user';
@@ -158,28 +173,78 @@
 			if (yesActive) { return; }
 			yesActive = true;
 			inputLine.classList.add('hidden');
+			stopButton.hidden = false;
+			stopButton.focus({ preventScroll: true });
 			appendLine('yes');
 			yesInterval = setInterval(() => { appendLine('yes'); }, 300);
 			return;
 		}
 		if (cmd === 'sl') {
-			appendLine('                                                            ');
-			appendLine('                     (  ) (@@) ( )  (@)  ()    @@    O     @     O     @      O');
-			appendLine('                (@@@)');
-			appendLine('            (    )');
-			appendLine('          (@@@@)');
-			appendLine('       (   )');
-			appendLine('');
-			appendLine('     ====        ________                ___________');
-			appendLine(' _D _|  |_______/        \\__I_I_____===__|_________|');
-			appendLine('  |(_)---  |   H\\________/ |   |        =|___ ___|      _________________');
-			appendLine('  /     |  |   H  |  |     |   |         ||_| |_||     _|                \\_____A');
-			appendLine(' |      |  |   H  |__--------------------| [___] |   =|                        |');
-			appendLine(' | ________|___H__/__|_____/[][]~\\_______|       |   -|                        |');
-			appendLine(' |/ |   |-----------I_____I [][] []  D   |=======|____|________________________|_');
-			appendLine('__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__|__________________________|_');
-			appendLine(' |/-=|___|=    ||    ||    ||    |_____/~\\___/          |_D__D__D_|  |_D__D__D_|');
-			appendLine('  \\_/      \\O=====O=====O=====O_/      \\_/               \\_/   \\_/    \\_/   \\_/');
+			const trainLines = [];
+			trainLines.push('                                                            ');
+			trainLines.push('                     (  ) (@@) ( )  (@)  ()    @@    O     @     O     @      O');
+			trainLines.push('                (@@@)');
+			trainLines.push('            (    )');
+			trainLines.push('          (@@@@)');
+			trainLines.push('       (   )');
+			trainLines.push('');
+			trainLines.push('     ====        ________                ___________');
+			trainLines.push(' _D _|  |_______/        \\__I_I_____===__|_________|');
+			trainLines.push('  |(_)---  |   H\\________/ |   |        =|___ ___|      _________________');
+			trainLines.push('  /     |  |   H  |  |     |   |         ||_| |_||     _|                \\_____A');
+			trainLines.push(' |      |  |   H  |__--------------------| [___] |   =|                        |');
+			trainLines.push(' | ________|___H__/__|_____/[][]~\\_______|       |   -|                        |');
+			trainLines.push(' |/ |   |-----------I_____I [][] []  D   |=======|____|________________________|_');
+			trainLines.push('__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__|__________________________|_');
+			trainLines.push(' |/-=|___|=    ||    ||    ||    |_____/~\\___/          |_D__D__D_|  |_D__D__D_|');
+			trainLines.push('  \\_/      \\O=====O=====O=====O_/      \\_/               \\_/   \\_/    \\_/   \\_/');
+			const viewport = document.createElement('div');
+			viewport.className = 'train-viewport';
+			viewport.style.setProperty('--train-start', `${screen.clientWidth}px`);
+			const train = document.createElement('pre');
+			train.className = 'train-art';
+			const width = Math.max(...trainLines.map(line => line.length));
+			const wheelBase = trainLines.slice(14);
+			wheelBase[2] = '  \\_/      \\__/  \\__/  \\__/  \\__/      \\_/               \\_/   \\_/    \\_/   \\_/';
+			const crankPositions = [[0, 1], [-1, 0], [0, -1], [1, -1], [2, 0], [1, 1]];
+			let frame = 0;
+			function drawTrain() {
+				const lines = trainLines.map(line => line.padEnd(width));
+				// New puffs rise from the funnel, expand and drift behind the engine.
+				for (let row = 0; row < 7; row++) lines[row] = ' '.repeat(width);
+				const puffs = ['()', '( )', '(   )', ' . . ', ' . '];
+				for (let age = frame % 3; age < 12; age += 3) {
+					const row = 5 - Math.floor(age / 2);
+					const x = 7 + age * 2;
+					const puff = puffs[Math.min(4, Math.floor(age / 3))];
+					lines[row] = lines[row].slice(0, x) + puff + lines[row].slice(x + puff.length);
+				}
+				for (let row = 0; row < 3; row++) lines[14 + row] = wheelBase[row].padEnd(width);
+				const [dx, dy] = crankPositions[frame % crankPositions.length];
+				const row = 15 + dy;
+				const x = 12 + dx;
+				const rod = 'O=====O=====O=====O';
+				lines[row] = lines[row].slice(0, x) + rod + lines[row].slice(x + rod.length);
+				train.textContent = lines.join('\n');
+				frame++;
+			}
+			drawTrain();
+			const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+			let wheelTimer = null;
+			function syncTrainMotion() {
+				clearInterval(wheelTimer);
+				wheelTimer = reducedMotion?.matches ? null : setInterval(drawTrain, 120);
+			}
+			reducedMotion?.addEventListener('change', syncTrainMotion);
+			syncTrainMotion();
+			viewport.appendChild(train);
+			screen.insertBefore(viewport, inputLine);
+			train.addEventListener('animationend', () => {
+				clearInterval(wheelTimer);
+				reducedMotion?.removeEventListener('change', syncTrainMotion);
+				viewport.remove();
+				ensureScrollBottom();
+			}, { once: true });
 			ensureScrollBottom();
 			return;
 		}
@@ -193,32 +258,55 @@
 		appendLine(cmd + ': command not found (Try running help!)'); ensureScrollBottom();
 	}
 
-	function update() { cmdEl.textContent = buffer; }
+	function interrupt() {
+		if (!yesActive) return;
+		clearInterval(yesInterval);
+		yesInterval = null;
+		yesActive = false;
+		inputLine.classList.remove('hidden');
+		stopButton.hidden = true;
+		appendLine('^C');
+		cmdEl.focus({ preventScroll: true });
+	}
 
-	terminal.addEventListener('keydown', function (e) {
-		// detect Ctrl+C to interrupt running 'yes' command
-		if ((e.key === 'c' || e.key === 'C') && e.ctrlKey) {
-			if (yesActive) {
-				clearInterval(yesInterval);
-				yesInterval = null;
-				yesActive = false;
-				inputLine.classList.remove('hidden');
-				appendLine('^C');
-				ensureScrollBottom();
-				e.preventDefault();
-				return;
-			}
-		}
-		if (!yesInterval) {
-			if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) { buffer += e.key; update(); e.preventDefault(); }
-			if (e.key === 'Backspace') { buffer = buffer.slice(0, -1); update(); e.preventDefault(); }
-			if (e.key === 'Enter') { appendExecutedCommand(buffer); execute(buffer); buffer = ''; update(); e.preventDefault(); }
-		}
+	cmdEl.addEventListener('compositionstart', () => { composing = true; });
+	cmdEl.addEventListener('compositionend', () => { composing = false; });
+	inputLine.addEventListener('submit', e => {
+		e.preventDefault();
+		if (composing || yesActive) return;
+		const command = cmdEl.value;
+		cmdEl.value = '';
+		updateCursor();
+		appendExecutedCommand(command);
+		execute(command);
 		ensureScrollBottom();
 	});
+	terminal.addEventListener('keydown', e => {
+		if (e.isComposing || composing) return;
+		if ((e.key === 'c' || e.key === 'C') && e.ctrlKey && yesActive) {
+			e.preventDefault();
+			interrupt();
+		}
+	});
+	stopButton.addEventListener('click', interrupt);
 
-	// clicking focuses terminal so keyboard events are captured
-	terminal.addEventListener('click', () => terminal.focus());
-	// initial focus
-	setTimeout(() => terminal.focus(), 200);
+	// A tap on the terminal focuses a real input, opening the mobile keyboard.
+	terminal.addEventListener('click', e => {
+		if (yesActive || e.target.closest('a, button, input') || window.getSelection()?.toString()) return;
+		cmdEl.focus({ preventScroll: true });
+	});
+	function fitViewport() {
+		if (window.visualViewport) {
+			document.documentElement.style.setProperty('--terminal-viewport-height', `${window.visualViewport.height}px`);
+		}
+		ensureScrollBottom();
+	}
+	window.visualViewport?.addEventListener('resize', fitViewport);
+	window.addEventListener('resize', () => requestAnimationFrame(updateCursor));
+	appendExecutedCommand('help');
+	execute('help');
+	appendExecutedCommand('ls');
+	execute('ls');
+	updateCursor();
+	fitViewport();
 })();
