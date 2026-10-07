@@ -43,5 +43,5 @@ export function randomJump(bounds, random = Math.random) {
 }
 
 export function nextFishDelay(random = Math.random) {
-  return randomBetween(5, 15, random);
+  return randomBetween(5, 10, random);
 }

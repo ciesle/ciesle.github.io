@@ -19,7 +19,17 @@
 }
 
 html {
+  --page-edge-top: #111d38;
+  --page-edge-bottom: #111d38;
   scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+  background-color: var(--page-edge-bottom);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, var(--page-edge-top)), color-stop(50%, var(--page-edge-bottom)));
+  background-image: linear-gradient(var(--page-edge-top) 50%, var(--page-edge-bottom) 50%);
+}
+
+html:has(.section-header--univ) {
+  --page-edge-top: #117711;
 }
 
 body {

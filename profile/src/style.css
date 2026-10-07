@@ -5,6 +5,7 @@
 
 html, body {
   height: 100%;
+  background-color: #281827;
 }
 
 body {
@@ -86,6 +87,7 @@ main {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  background-color: #281827;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

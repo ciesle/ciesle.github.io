@@ -18,7 +18,17 @@
 }
 
 html {
+  --page-edge-top: #111d38;
+  --page-edge-bottom: #111d38;
   scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+  background-color: var(--page-edge-bottom);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, var(--page-edge-top)), color-stop(50%, var(--page-edge-bottom)));
+  background-image: linear-gradient(var(--page-edge-top) 50%, var(--page-edge-bottom) 50%);
+}
+
+html:has(.section-header--univ) {
+  --page-edge-top: #117711;
 }
 
 body {
@@ -488,8 +498,8 @@ a:focus-visible {
   position: absolute;
   left: var(--x);
   top: var(--y);
-  -webkit-transform: translate3d(var(--move-x, 0px), var(--move-y, 0px), 0) translate(-50%, -50%) rotateZ(var(--tilt));
-  transform: translate3d(var(--move-x, 0px), var(--move-y, 0px), 0) translate(-50%, -50%) rotateZ(var(--tilt));
+  -webkit-transform: translate3d(var(--move-x, 0px), var(--move-y, 0px), 0) translate(-50%, -50%) rotateZ(var(--tilt)) scale(var(--depth-scale, 1));
+  transform: translate3d(var(--move-x, 0px), var(--move-y, 0px), 0) translate(-50%, -50%) rotateZ(var(--tilt)) scale(var(--depth-scale, 1));
   font-size: clamp(24px, 3vw, 43px);
   font-weight: 600;
   letter-spacing: 0.1em;

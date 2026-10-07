@@ -20,18 +20,25 @@ if (stage) {
   let frame = null;
   let active = null;
   let previous = null;
+  let firstJump = true;
+  let firstDeadline = null;
 
   const bounds = () => ({ width: water.clientWidth, height: water.clientHeight });
   const surface = (layer, x, area) => waveSurface(layer, x, getWaveOffset(layer.element), area);
 
-  function schedule(delay = nextFishDelay()) {
-    if (!document.hidden && !reducedMotion.matches) pending = setTimeout(start, delay * 1000);
+  function schedule(delay) {
+    if (document.hidden || reducedMotion.matches || (firstJump && firstDeadline === null)) return;
+    const milliseconds = firstJump
+      ? Math.max(0, firstDeadline - performance.now())
+      : (delay ?? nextFishDelay()) * 1000;
+    pending = setTimeout(start, milliseconds);
   }
 
   function start() {
     pending = null;
     const area = bounds();
     if (!area.width || !area.height || !layers.length) { schedule(); return; }
+    firstJump = false;
     const layer = layers[Math.floor(Math.random() * layers.length)];
     active = { ...randomJump(area), layer, elapsed: 0, nextDelay: nextFishDelay() };
     stage.setAttribute('viewBox', `0 0 ${area.width} ${area.height}`);
@@ -78,5 +85,7 @@ if (stage) {
   reducedMotion.addEventListener('change', reset);
   document.addEventListener('visibilitychange', reset);
   new ResizeObserver(reset).observe(water);
-  schedule();
+  const onLoad = () => { firstDeadline = performance.now() + 2000; schedule(); };
+  if (document.readyState === 'complete') onLoad();
+  else window.addEventListener('load', onLoad, { once: true });
 }
