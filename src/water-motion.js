@@ -160,21 +160,31 @@ function layoutCacheMatches(cache, bodies, bounds) {
       && item.order === bodies[index].order);
 }
 
-function yCandidates(body, band, bounds) {
+// Initial positions span both outer thirds; later movement remains unrestricted.
+function initialXRange(body, bounds, index) {
+  return {
+    min: Math.max(body.halfWidth + 8, index === 2 ? bounds.width * 2 / 3 : 0),
+    max: Math.min(bounds.width - body.halfWidth - 8, index === 0 ? bounds.width / 3 : bounds.width),
+  };
+}
+
+function yCandidates(body, band, bounds, index) {
   const fullHeight = bounds.fullHeight ?? bounds.height;
   const low = Math.max(0, band * fullHeight / 3);
   const high = Math.min(bounds.height, (band + 1) * fullHeight / 3 - 0.001);
   const ys = [low, high];
   for (let y = Math.ceil(low / 8) * 8; y <= high; y += 8) ys.push(y);
   return [...new Set(ys)].sort((a, b) => Math.abs(a - (low + high) / 2) - Math.abs(b - (low + high) / 2))
-    .filter(y => bodyThird({ y }, bounds) === band
-    && inside(withSize(body, y, { x: bounds.width / 2, y }), bounds));
+    .filter(y => {
+      const candidate = withSize(body, y, { x: bounds.width / 2, y });
+      const range = initialXRange(candidate, bounds, index);
+      return range.min <= range.max && bodyThird(candidate, bounds) === band && inside(candidate, bounds);
+    });
 }
 
-function leftmostX(body, y, placed, bounds) {
+function leftmostX(body, y, placed, bounds, index) {
   const candidate = withSize(body, y);
-  const minX = candidate.halfWidth + 8;
-  const maxX = bounds.width - candidate.halfWidth - 8;
+  const { min: minX, max: maxX } = initialXRange(candidate, bounds, index);
   const xs = [minX, maxX, (minX + maxX) / 2];
   for (const other of placed) {
     xs.push(other.x - 12, other.x + 12,
@@ -194,8 +204,8 @@ function witnessForLayout(bodies, bounds, bands) {
   const visit = index => {
     if (index === bodies.length) return placed.map(body => ({ ...body }));
     const body = bodies[index];
-    for (const y of yCandidates(body, bands[index], bounds)) {
-      const x = leftmostX(body, y, placed, bounds);
+    for (const y of yCandidates(body, bands[index], bounds, index)) {
+      const x = leftmostX(body, y, placed, bounds, index);
       if (x === undefined) continue;
       placed.push(withSize(body, y, { x, y }));
       const result = visit(index + 1);
@@ -230,10 +240,11 @@ export function availableLayouts(bodies, bounds) {
   return layouts;
 }
 
-function randomPosition(body, [low, high], bounds, random) {
+function randomPosition(body, [low, high], bounds, random, index) {
   const y = randomBetween(low, high, random);
   const radius = sizeAt(body, y);
-  const x = randomBetween(radius.halfWidth + 8, bounds.width - radius.halfWidth - 8, random);
+  const range = initialXRange(radius, bounds, index);
+  const x = randomBetween(range.min, range.max, random);
   return withSize(body, y, { x, y });
 }
 
@@ -251,19 +262,19 @@ export function placeBodies(bodies, bounds, random = Math.random) {
     if (!layouts.length) return false;
     const layout = layouts[Math.min(layouts.length - 1, Math.floor(random() * layouts.length))];
     const ranges = bodies.map((body, i) => {
-      const ys = yCandidates(body, layout.bands[i], bounds);
+      const ys = yCandidates(body, layout.bands[i], bounds, i);
       return [Math.min(...ys), Math.max(...ys)];
     });
     for (let attempt = 0; attempt < 3000; attempt++) {
-      const positions = bodies.map((body, i) => randomPosition(body, ranges[i], bounds, random));
+      const positions = bodies.map((body, i) => randomPosition(body, ranges[i], bounds, random, i));
       if (validLayout(positions, bounds)) {
         positions.forEach(({ x, y, halfWidth, halfHeight }, i) => Object.assign(bodies[i], { x, y, halfWidth, halfHeight }));
         return true;
       }
     }
     // Preserve the selected combination, but spread its fallback across the available width.
-    const minShift = Math.max(...layout.witness.map(body => body.halfWidth + 8 - body.x));
-    const maxShift = Math.min(...layout.witness.map(body => bounds.width - body.halfWidth - 8 - body.x));
+    const minShift = Math.max(...layout.witness.map((body, i) => initialXRange(body, bounds, i).min - body.x));
+    const maxShift = Math.min(...layout.witness.map((body, i) => initialXRange(body, bounds, i).max - body.x));
     const shift = randomBetween(minShift, maxShift, random);
     layout.witness.forEach(({ x, y, halfWidth, halfHeight }, i) => Object.assign(bodies[i], { x: x + shift, y, halfWidth, halfHeight }));
     return true;

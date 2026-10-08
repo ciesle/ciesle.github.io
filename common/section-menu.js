@@ -15,7 +15,6 @@ if (menuButton && sidebar) {
     menuButton.setAttribute('aria-expanded', String(open && mobile));
     menuButton.setAttribute('aria-label', open && mobile ? 'メニューを閉じる' : 'メニューを開く');
     sidebar.inert = mobile && !open;
-    if (!mobile) document.body.classList.remove('section-menu-open');
   };
 
   document.body.classList.add('section-menu-ready');

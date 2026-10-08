@@ -26,31 +26,28 @@
 	// prefer scrolling the profile main container so the terminal area (under header) scrolls
 	function ensureScrollBottom() {
 		requestAnimationFrame(() => {
-			if (screen) {
-				screen.scrollTop = screen.scrollHeight;
-				requestAnimationFrame(() => { screen.scrollTop = screen.scrollHeight; });
-			} else {
-				let element = document.documentElement;
-				let bottom = element.scrollHeight - element.clientHeight;
-				window.scroll(0, bottom + 50);
-			}
+			screen.scrollTop = screen.scrollHeight;
+			requestAnimationFrame(() => { screen.scrollTop = screen.scrollHeight; });
 		});
 	}
 
 	const inputLine = document.getElementById('input-line');
-	function appendLine(text, options = {}) {
+	function appendElement(element) {
+		screen.insertBefore(element, inputLine);
+		ensureScrollBottom();
+	}
+	function appendLine(text, headingTag) {
 		const d = document.createElement('div');
 		d.className = 'line';
-		if (options.html) {
-			d.innerHTML = options.html;
+		if (headingTag) {
+			const heading = document.createElement(headingTag);
+			heading.textContent = text;
+			d.appendChild(heading);
 		} else {
 			// show empty lines visibly by using a non-breaking space
-			if (text === '') d.textContent = '\u00A0';
-			else d.textContent = text;
+			d.textContent = text === '' ? '\u00A0' : text;
 		}
-		if (inputLine && inputLine.parentNode === screen) screen.insertBefore(d, inputLine);
-		else screen.appendChild(d);
-		ensureScrollBottom();
+		appendElement(d);
 	}
 
 	function appendExecutedCommand(cmdText) {
@@ -77,22 +74,23 @@
 		d.appendChild(path);
 		d.appendChild(dollar);
 		d.appendChild(c);
-		if (inputLine && inputLine.parentNode === screen) screen.insertBefore(d, inputLine);
-		else screen.appendChild(d);
-		ensureScrollBottom();
+		appendElement(d);
+	}
+
+	async function readFile(path) {
+		const response = await fetch('files/' + path);
+		if (!response.ok) throw new Error('File request failed');
+		return response.text();
 	}
 
 	async function history() {
 		try {
-			const r = await fetch('files/history.txt');
-			if (!r.ok) { appendLine('Some error has occured'); ensureScrollBottom(); return; }
-			const t = await r.text();
-			const escapeHtml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			const t = await readFile('history.txt');
 			t.split('\n').forEach(line => {
 				if (line.startsWith('# ')) {
-					appendLine('', { html: '<h3>' + escapeHtml(line.slice(2)) + '</h3>' });
+					appendLine(line.slice(2), 'h3');
 				} else if (line.startsWith('## ')) {
-					appendLine('', { html: '<h4>' + escapeHtml(line.slice(3)) + '</h4>' });
+					appendLine(line.slice(3), 'h4');
 				} else {
 					appendLine(line);
 				}
@@ -110,9 +108,7 @@
 			return;
 		}
 		try {
-			const r = await fetch('files/' + name);
-			if (!r.ok) { appendLine('cat: ' + name + ': No such file or directory'); ensureScrollBottom(); return; }
-			const t = await r.text();
+			const t = await readFile(name);
 			t.split('\n').forEach(line => appendLine(line));
 			// make sure we scroll to bottom after async content is appended
 			ensureScrollBottom();
@@ -170,7 +166,6 @@
 		}
 		if (cmd === 'history') { history(); return; }
 		if (cmd === 'yes') {
-			if (yesActive) { return; }
 			yesActive = true;
 			inputLine.classList.add('hidden');
 			stopButton.hidden = false;

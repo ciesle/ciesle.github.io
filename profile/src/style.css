@@ -146,15 +146,6 @@ main .terminal #term-screen h4 {
   color: inherit;
   font-weight: 700;
 }
-main .terminal .term-line {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  gap: 6px;
-}
 main .terminal .line {
   line-height: normal;
   white-space: pre-wrap;
@@ -223,10 +214,6 @@ main .terminal .input-line {
 }
 main .terminal .input-line.hidden {
   display: none;
-}
-main .terminal .prompt {
-  color: #2b8a3e;
-  font-weight: 600;
 }
 main .terminal .prompt-user {
   color: #2b8a3e;
@@ -334,7 +321,4 @@ main .terminal .stop-command {
 main .terminal .stop-command:focus-visible {
   outline: 2px solid #5bcefa;
   outline-offset: 2px;
-}
-main .terminal .help-cmd {
-  color: #444;
 }

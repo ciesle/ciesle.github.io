@@ -1,0 +1,49 @@
+{
+  "inshi": {
+    "title": "情報理工CS専攻大学院入試体験記",
+    "series": ""
+  },
+  "keisu-class-2a": {
+    "series": "計数工学科の授業紹介",
+    "title": "システムコース2Aセメスターの授業紹介"
+  },
+  "keisu-class-3s": {
+    "series": "計数工学科の授業紹介",
+    "title": "システムコース3Sセメスターの授業紹介"
+  },
+  "keisu-class-3a": {
+    "series": "計数工学科の授業紹介",
+    "title": "システムコース3Aセメスターの授業紹介"
+  },
+  "keisu-class-4s": {
+    "series": "計数工学科の授業紹介",
+    "title": "システムコース4Sセメスターの授業紹介"
+  },
+  "wasm-overview": {
+    "series": "Wasmバイナリを読めるようになろう",
+    "title": "Wasm処理系の概要",
+    "section": "tech",
+    "category": "開発",
+    "href": "/tech/contents/wasm-overview.html",
+    "updatedAt": "2026-10-08",
+    "summary": "本記事は、このバージョンのWasmについて解説するものである。"
+  },
+  "wasm-data-types": {
+    "series": "Wasmバイナリを読めるようになろう",
+    "title": "Wasmのデータ型",
+    "section": "tech",
+    "category": "開発",
+    "href": "/tech/contents/wasm-data-types.html",
+    "updatedAt": "2026-10-08",
+    "summary": "Wasmコードの動作を理解するために必要な型のみを紹介するに留めることにする。"
+  },
+  "wasm-instructions": {
+    "series": "Wasmバイナリを読めるようになろう",
+    "title": "Wasmの命令",
+    "section": "tech",
+    "category": "開発",
+    "href": "/tech/contents/wasm-instructions.html",
+    "updatedAt": "2026-10-08",
+    "summary": "WebAssemblyの命令には様々なものがある。"
+  }
+}
