@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="932" height="520" viewBox="0 0 932 520" role="img" aria-labelledby="title desc">
+<title id="title">条件チェック、sleep_prepare、release、sleepの関係</title>
+<desc id="desc">親はWAIT_LOCKを取得して条件を確認し、待つ必要があればロックを保持したままsleep_prepareでフラグをfalseにする。その後releaseでロックを解放する。子はロック解放後に終了し、wakeupで親のフラグをtrueにする。親はsleepでフラグを確認するため、releaseとsleepの間の通知も取り逃がさない。フラグがfalseならコンテキストスイッチ、trueならsleepせずに続行する。</desc>
+<defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#111d38"/></marker></defs>
+<rect width="932" height="520" fill="white"/>
+<g font-family="Noto Sans JP, sans-serif">
+<rect x="16" y="12" width="520" height="36" rx="4" fill="#111d38" stroke="#111d38" stroke-width="1.5"/>
+<text x="276" y="36" fill="white" font-size="16" font-weight="700" text-anchor="middle">親プロセス</text>
+<rect x="576" y="12" width="340" height="36" rx="4" fill="#111d38" stroke="#111d38" stroke-width="1.5"/>
+<text x="746" y="36" fill="white" font-size="16" font-weight="700" text-anchor="middle">子プロセス</text>
+<rect x="16" y="64" width="520" height="64" rx="4" fill="white" stroke="#111d38" stroke-width="1.5"/>
+<text x="30" y="90" fill="#25324a" font-size="16" font-weight="700" text-anchor="start">1. 条件チェック</text>
+<text x="30" y="114" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">WAIT_LOCK を取得して確認</text>
+<path d="M270 135 H282 L276 145 Z" fill="#111d38"/>
+<text x="294" y="145" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">待つ必要がある場合</text>
+<rect x="16" y="152" width="520" height="64" rx="4" fill="white" stroke="#111d38" stroke-width="1.5"/>
+<text x="30" y="178" fill="#25324a" font-size="16" font-weight="700" text-anchor="start">2. sleep_prepare</text>
+<text x="30" y="202" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">フラグをfalseに設定（sleepから目覚める必要はない）</text>
+<path d="M270 223 H282 L276 233 Z" fill="#111d38"/>
+<rect x="16" y="240" width="520" height="40" rx="4" fill="white" stroke="#111d38" stroke-width="1.5"/>
+<text x="30" y="266" fill="#25324a" font-size="16" font-weight="700" text-anchor="start">3. WAIT_LOCK.release()</text>
+<path d="M276 286 V370" fill="none" stroke="#111d38" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="576" y="64" width="340" height="64" rx="4" fill="white" stroke="#111d38" stroke-width="1.5"/>
+<text x="590" y="90" fill="#25324a" font-size="16" font-weight="700" text-anchor="start">子の終了処理</text>
+<text x="590" y="114" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">WAIT_LOCK の解放を待つ</text>
+<path d="M746 134 V294" fill="none" stroke="#111d38" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow)"/>
+<rect x="576" y="300" width="340" height="64" rx="4" fill="#111d38" stroke="#111d38" stroke-width="1.5"/>
+<text x="590" y="326" fill="white" font-size="16" font-weight="400" text-anchor="start">子が終了し、親をwakeup</text>
+<text x="590" y="350" fill="white" font-size="16" font-weight="400" text-anchor="start">フラグをtrueに変更</text>
+<path d="M574 332 H282" fill="none" stroke="#111d38" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="428" y="320" fill="#111d38" font-size="16" font-weight="400" text-anchor="middle">通知</text>
+<text x="30" y="357" fill="#111d38" font-size="16" font-weight="400" text-anchor="start">通知をフラグに保存</text>
+<rect x="16" y="376" width="520" height="128" rx="4" fill="white" stroke="#111d38" stroke-width="1.5"/>
+<text x="30" y="402" fill="#25324a" font-size="16" font-weight="700" text-anchor="start">4. sleep</text>
+<text x="30" y="428" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">フラグを確認</text>
+<text x="30" y="454" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">false → コンテキストスイッチ</text>
+<text x="30" y="480" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">true → sleepせずに続行</text>
+</g>
+</svg>

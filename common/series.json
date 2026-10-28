@@ -1,0 +1,14 @@
+{
+  "cieos": {
+    "title": "自作OS on 自作ハイパーバイザを市販SoCで動かそう",
+    "section": "tech"
+  },
+  "wasm": {
+    "title": "Wasmバイナリを読めるようになろう",
+    "section": "tech"
+  },
+  "keisu-class": {
+    "title": "計数工学科の授業紹介",
+    "section": "univ"
+  }
+}

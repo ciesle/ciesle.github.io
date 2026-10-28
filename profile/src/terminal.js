@@ -1,14 +1,17 @@
 (function () {
-	const filesList = ["about.txt", "intro.txt"];
+	const filesList = ['about.txt'];
+	const directories = {
+		products: '/profile/contents/products.html',
+		awards: '/profile/contents/awards.html',
+		history: '/profile/contents/history.html',
+	};
 	const terminal = document.getElementById('terminal');
+	const introduction = `名前: ciesle(a.k.a. thistle)\n職業: 大学生\nレベル: ${terminal.dataset.level}\nTwitter: @cies1e\nGitHub: @ciesle\n所属: 東京大学工学部計数工学科\n所持資格: ネットワークスペシャリスト\n趣味: プログラミング、読書、神社巡り他`;
 	const screen = document.getElementById('term-screen');
 	const cmdEl = document.getElementById('cmd');
-	const stopButton = document.getElementById('stop-command');
 	const cursor = document.getElementById('terminal-cursor');
 	const cursorMeasure = document.getElementById('cursor-measure');
 	let composing = false;
-	let yesInterval = null;
-	let yesActive = false;
 
 	function updateCursor() {
 		cursorMeasure.textContent = cmdEl.value.slice(0, cmdEl.selectionStart ?? cmdEl.value.length);
@@ -83,24 +86,12 @@
 		return response.text();
 	}
 
-	async function history() {
-		try {
-			const t = await readFile('history.txt');
-			t.split('\n').forEach(line => {
-				if (line.startsWith('# ')) {
-					appendLine(line.slice(2), 'h3');
-				} else if (line.startsWith('## ')) {
-					appendLine(line.slice(3), 'h4');
-				} else {
-					appendLine(line);
-				}
-			});
-			// make sure we scroll to bottom after async content is appended
-			ensureScrollBottom();
-		} catch (e) { appendLine('Some error has occured'); ensureScrollBottom(); }
-	}
-
 	async function catFile(name) {
+		const directory = name.replace(/^\.\//, '').replace(/\/$/, '');
+		if (Object.hasOwn(directories, directory) || name === '.' || name === './') {
+			appendLine('cat: ' + name + ': Is a directory');
+			return;
+		}
 		// only allow reading files that are declared in filesList
 		if (!filesList.includes(name)) {
 			appendLine('cat: ' + name + ': No such file or directory');
@@ -116,18 +107,22 @@
 	}
 
 	function showHelp() {
-		appendLine('Commands:');
-		appendLine('  whoami  - show the current user');
-		appendLine('  pwd     - print working directory');
-		appendLine('  ls      - list files');
-		appendLine('  cat <file> - show contents of a file');
-		appendLine('  cowsay <message> - make a cow say something');
-		appendLine('  sl      - show a train');
-		appendLine('  history - show history');
-		appendLine('  yes     - say yes');
-		appendLine('  exit    - return to homepage');
-		appendLine('  help    - show this help');
-		appendLine('  man     - show this manual');
+		const commands = [
+			['whoami', '私が誰か出力する'],
+			['pwd', '現在の作業ページの名前を出力する'],
+			['ls', '記事の名前をリスト表示する'],
+			['cat <file>', 'ファイルの内容を出力する'],
+			['cd <directory>', 'カレントページを指定した記事に変更する'],
+			['cowsay <message>', '牛がメッセージを話す'],
+			['sl', '列車が発車する'],
+			['exit', 'ページの正常終了'],
+			['help', 'このhelpを出力する'],
+		];
+		const width = Math.max(...commands.map(([command]) => command.length));
+		appendLine('コマンド一覧:');
+		commands.forEach(([command, description]) => {
+			appendLine(`  ${command.padEnd(width)} - ${description}`);
+		});
 	}
 
 	function cowsay(message) {
@@ -151,9 +146,27 @@
 		const args = input.trim().split(/\s+/).filter(Boolean);
 		if (args.length === 0) return;
 		const cmd = args[0];
-		if (cmd === 'whoami') { appendLine('ciesle(a.k.a. thistle)'); ensureScrollBottom(); return; }
+		if (cmd === 'whoami') {
+			introduction.split('\n').forEach(line => appendLine(line));
+			return;
+		}
 		if (cmd === 'pwd') { appendLine('ciesle-field (ciesle\'s homepage)'); ensureScrollBottom(); return; }
-		if (cmd === 'ls') { filesList.forEach(f => appendLine(f)); ensureScrollBottom(); return; }
+		if (cmd === 'ls') {
+			filesList.forEach(file => appendLine(file));
+			Object.keys(directories).forEach(directory => appendLine(directory + '/'));
+			return;
+		}
+		if (cmd === 'cd') {
+			if (args.length > 2) { appendLine('cd: 引数が多すぎます'); return; }
+			const directory = (args[1] ?? '').replace(/^\.\//, '').replace(/\/$/, '');
+			if (!directory || directory === '.' || directory === '~') return;
+			if (!Object.hasOwn(directories, directory)) {
+				appendLine('cd: ' + args[1] + ': ディレクトリが見つかりません');
+				return;
+			}
+			window.location.href = directories[directory];
+			return;
+		}
 		if (cmd === 'cat') {
 			if (args.length < 2) { appendLine('cat: missing operand'); ensureScrollBottom(); return; }
 			catFile(args[1]);
@@ -162,16 +175,6 @@
 		if (cmd === 'cowsay') {
 			const message = args.slice(1).join(' ');
 			cowsay(message);
-			return;
-		}
-		if (cmd === 'history') { history(); return; }
-		if (cmd === 'yes') {
-			yesActive = true;
-			inputLine.classList.add('hidden');
-			stopButton.hidden = false;
-			stopButton.focus({ preventScroll: true });
-			appendLine('yes');
-			yesInterval = setInterval(() => { appendLine('yes'); }, 300);
 			return;
 		}
 		if (cmd === 'sl') {
@@ -249,26 +252,15 @@
 			setTimeout(() => { window.location.href = '../index.html'; }, 150);
 			return;
 		}
-		if (cmd === 'help' || cmd === 'man') { showHelp(); ensureScrollBottom(); return; }
+		if (cmd === 'help') { showHelp(); ensureScrollBottom(); return; }
 		appendLine(cmd + ': command not found (Try running help!)'); ensureScrollBottom();
-	}
-
-	function interrupt() {
-		if (!yesActive) return;
-		clearInterval(yesInterval);
-		yesInterval = null;
-		yesActive = false;
-		inputLine.classList.remove('hidden');
-		stopButton.hidden = true;
-		appendLine('^C');
-		cmdEl.focus({ preventScroll: true });
 	}
 
 	cmdEl.addEventListener('compositionstart', () => { composing = true; });
 	cmdEl.addEventListener('compositionend', () => { composing = false; });
 	inputLine.addEventListener('submit', e => {
 		e.preventDefault();
-		if (composing || yesActive) return;
+		if (composing) return;
 		const command = cmdEl.value;
 		cmdEl.value = '';
 		updateCursor();
@@ -276,18 +268,9 @@
 		execute(command);
 		ensureScrollBottom();
 	});
-	terminal.addEventListener('keydown', e => {
-		if (e.isComposing || composing) return;
-		if ((e.key === 'c' || e.key === 'C') && e.ctrlKey && yesActive) {
-			e.preventDefault();
-			interrupt();
-		}
-	});
-	stopButton.addEventListener('click', interrupt);
-
 	// A tap on the terminal focuses a real input, opening the mobile keyboard.
 	terminal.addEventListener('click', e => {
-		if (yesActive || e.target.closest('a, button, input') || window.getSelection()?.toString()) return;
+		if (e.target.closest('a, button, input') || window.getSelection()?.toString()) return;
 		cmdEl.focus({ preventScroll: true });
 	});
 	function fitViewport() {

@@ -1,36 +1,66 @@
 {
   "inshi": {
     "title": "情報理工CS専攻大学院入試体験記",
-    "series": ""
+    "series": "",
+    "section": "univ",
+    "href": "/univ/contents/inshi.html",
+    "description": "情報理工CS専攻大学院入試の体験記",
+    "summary": "2026年度情報理工学系研究科コンピュータ科学専攻大学院入試のお話",
+    "updatedAt": "2025-11",
+    "category": "大学院"
   },
   "keisu-class-2a": {
-    "series": "計数工学科の授業紹介",
-    "title": "システムコース2Aセメスターの授業紹介"
+    "series": "keisu-class",
+    "title": "システムコース2Aセメスターの授業紹介",
+    "section": "univ",
+    "href": "/univ/contents/keisu-class-2a.html",
+    "description": "計数工学科システムコースの授業紹介",
+    "summary": "筆者が 2A セメスターに計数工学科で受けた授業の簡単な紹介です。\nまだコースが分かれていないので、システム・数理で同じ内容だと思います。",
+    "updatedAt": "2024-02",
+    "category": "学科"
   },
   "keisu-class-3s": {
-    "series": "計数工学科の授業紹介",
-    "title": "システムコース3Sセメスターの授業紹介"
+    "series": "keisu-class",
+    "title": "システムコース3Sセメスターの授業紹介",
+    "section": "univ",
+    "href": "/univ/contents/keisu-class-3s.html",
+    "description": "計数工学科システムコースの授業紹介",
+    "summary": "筆者が 3S セメスターに計数工学科で受けた授業の簡単な紹介です。",
+    "updatedAt": "2025-11",
+    "category": "学科"
   },
   "keisu-class-3a": {
-    "series": "計数工学科の授業紹介",
-    "title": "システムコース3Aセメスターの授業紹介"
+    "series": "keisu-class",
+    "title": "システムコース3Aセメスターの授業紹介",
+    "section": "univ",
+    "href": "/univ/contents/keisu-class-3a.html",
+    "description": "計数工学科システムコースの授業紹介",
+    "summary": "筆者が 3A セメスターに計数工学科で受けた授業の簡単な紹介です。",
+    "updatedAt": "2025-11",
+    "category": "学科"
   },
   "keisu-class-4s": {
-    "series": "計数工学科の授業紹介",
-    "title": "システムコース4Sセメスターの授業紹介"
+    "series": "keisu-class",
+    "title": "システムコース4Sセメスターの授業紹介",
+    "section": "univ",
+    "href": "/univ/contents/keisu-class-4s.html",
+    "description": "計数工学科システムコースの授業紹介",
+    "summary": "筆者が 4S セメスターに計数工学科で受けた授業の簡単な紹介です。",
+    "updatedAt": "2025-11",
+    "category": "学科"
   },
   "wasm-overview": {
-    "series": "Wasmバイナリを読めるようになろう",
-    "title": "Wasm処理系の概要",
+    "series": "wasm",
+    "title": "第1回 Wasm処理系の概要",
     "section": "tech",
     "category": "開発",
     "href": "/tech/contents/wasm-overview.html",
     "updatedAt": "2026-10-08",
-    "summary": "本記事は、このバージョンのWasmについて解説するものである。"
+    "summary": "Wasmのスタックマシンやランタイム、使用例について解説します"
   },
   "wasm-data-types": {
-    "series": "Wasmバイナリを読めるようになろう",
-    "title": "Wasmのデータ型",
+    "series": "wasm",
+    "title": "第2回 Wasmのデータ型",
     "section": "tech",
     "category": "開発",
     "href": "/tech/contents/wasm-data-types.html",
@@ -38,12 +68,51 @@
     "summary": "Wasmコードの動作を理解するために必要な型のみを紹介するに留めることにする。"
   },
   "wasm-instructions": {
-    "series": "Wasmバイナリを読めるようになろう",
-    "title": "Wasmの命令",
+    "series": "wasm",
+    "title": "第3回 Wasmの命令",
     "section": "tech",
     "category": "開発",
     "href": "/tech/contents/wasm-instructions.html",
     "updatedAt": "2026-10-08",
     "summary": "WebAssemblyの命令には様々なものがある。"
+  },
+  "cieos-1": {
+    "series": "cieos",
+    "title": "第1回 Rust版xv6の実装",
+    "section": "tech",
+    "category": "開発",
+    "href": "/tech/contents/cieos-1.html",
+    "updatedAt": "2026-10-28",
+    "summary": "この記事では、xv6の簡単な動作説明とともに、Rust版xv6の解説を行います。"
+  },
+  "guidance": {
+    "series": "",
+    "title": "東大工学部1年生向け進学ガイダンス",
+    "section": "univ",
+    "href": "/univ/contents/guidance.html",
+    "updatedAt": "2025-12",
+    "category": "学科",
+    "summary": "2025年度の東大工学部の1年生向け進学ガイダンスで登壇をしたので、その時の資料と、発表向けに作ったガジェットの解説を行います。"
+  },
+  "products": {
+    "series": "",
+    "title": "過去の制作物",
+    "section": "profile",
+    "href": "/profile/contents/products.html",
+    "summary": "過去の制作物"
+  },
+  "award": {
+    "series": "",
+    "title": "受賞歴・発表歴・資格など",
+    "section": "profile",
+    "href": "/profile/contents/awards.html",
+    "summary": "受賞歴・発表歴・資格など"
+  },
+  "history": {
+    "series": "",
+    "title": "経歴",
+    "section": "profile",
+    "href": "/profile/contents/history.html",
+    "summary": "経歴"
   }
 }

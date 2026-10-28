@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="450" viewBox="0 0 1140 450" role="img" aria-labelledby="title desc">
+<title id="title">カーネル初期化からプロセス起動までのシーケンス図</title>
+<desc id="desc">関数を縦に並べ、各関数の横方向のライフライン上に実行区間を示す。左から右へ、start.rs、main.rs、scheduler、swtch、forkretの順に遷移する。schedulerはswtchへの遷移後も薄い実行帯が図のライフラインの右端まで続く。forkret内でfsinitを呼び、sepcとtrapvecを設定してuserretへ移る。sretでinitの開始アドレスへ遷移する。swtchのライフラインにコンテキストの区切り線を重ね、上側をスケジューラコンテキスト、下側をプロセスコンテキスト（init）と示す。userretとinitの間にはユーザのアドレス空間の区切り線を置く。各関数の処理説明は右に配置する。</desc>
+<defs>
+<marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#111d38"/></marker>
+</defs>
+<rect width="1140" height="450" fill="white"/>
+<g font-family="Noto Sans JP, sans-serif">
+<path d="M16 196 H1124" stroke="#111d38" stroke-width="1" opacity=".5"/>
+<rect x="16" y="23" width="120" height="34" rx="4" fill="#111d38"/>
+<text x="76" y="46" fill="white" font-size="16" font-weight="700" text-anchor="middle">start.rs</text>
+<path d="M150 40 H640" fill="none" stroke="#8992a3" stroke-width="1.25" stroke-dasharray="5 5"/>
+<rect x="150" y="34" width="55" height="12" fill="#111d38"/>
+<text x="680" y="46" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">mモードにおける設定を行う</text>
+<rect x="16" y="75" width="120" height="34" rx="4" fill="#111d38"/>
+<text x="76" y="98" fill="white" font-size="16" font-weight="700" text-anchor="middle">main.rs</text>
+<path d="M150 92 H640" fill="none" stroke="#8992a3" stroke-width="1.25" stroke-dasharray="5 5"/>
+<rect x="205" y="86" width="65" height="12" fill="#111d38"/>
+<text x="680" y="98" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">CPU0がinit類を呼び出す</text>
+<rect x="16" y="127" width="120" height="34" rx="4" fill="#111d38"/>
+<text x="76" y="150" fill="white" font-size="16" font-weight="700" text-anchor="middle">scheduler</text>
+<path d="M150 144 H640" fill="none" stroke="#8992a3" stroke-width="1.25" stroke-dasharray="5 5"/>
+<rect x="270" y="138" width="65" height="12" fill="#111d38"/>
+<rect x="335" y="138" width="305" height="12" fill="#111d38" opacity=".25"/>
+<text x="680" y="150" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">initを選択する</text>
+<rect x="16" y="179" width="120" height="34" rx="4" fill="#111d38"/>
+<text x="76" y="202" fill="white" font-size="16" font-weight="700" text-anchor="middle">swtch</text>
+<path d="M150 196 H640" fill="none" stroke="#8992a3" stroke-width="1.25" stroke-dasharray="5 5"/>
+<rect x="335" y="190" width="70" height="12" fill="#111d38"/>
+<rect x="672" y="180" width="335.8" height="24" fill="white"/>
+<text x="680" y="202" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">各CPUのscheduler領域へ古いレジスタを保存</text>
+<text x="680" y="224" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">return addressをforkretに設定し、spを設定</text>
+<rect x="16" y="269" width="120" height="34" rx="4" fill="#111d38"/>
+<text x="76" y="292" fill="white" font-size="16" font-weight="700" text-anchor="middle">forkret</text>
+<path d="M150 286 H640" fill="none" stroke="#8992a3" stroke-width="1.25" stroke-dasharray="5 5"/>
+<rect x="405" y="280" width="120" height="12" fill="#111d38"/>
+<text x="680" y="292" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">fsinitを呼び、sepc, trapvecを設定してuserretへ</text>
+<rect x="16" y="321" width="120" height="34" rx="4" fill="#111d38"/>
+<text x="76" y="344" fill="white" font-size="16" font-weight="700" text-anchor="middle">userret</text>
+<path d="M150 338 H640" fill="none" stroke="#8992a3" stroke-width="1.25" stroke-dasharray="5 5"/>
+<rect x="525" y="332" width="55" height="12" fill="#111d38"/>
+<text x="680" y="344" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">sretでsepc（プロセスの開始アドレス）へ</text>
+<rect x="16" y="397" width="120" height="34" rx="4" fill="#111d38"/>
+<text x="76" y="420" fill="white" font-size="16" font-weight="700" text-anchor="middle">init</text>
+<path d="M150 414 H640" fill="none" stroke="#8992a3" stroke-width="1.25" stroke-dasharray="5 5"/>
+<rect x="580" y="408" width="60" height="12" fill="#111d38"/>
+<text x="680" y="420" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">initの実行を開始する</text>
+<path d="M205 47 V85" fill="none" stroke="#111d38" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M270 99 V137" fill="none" stroke="#111d38" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M335 151 V189" fill="none" stroke="#111d38" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M405 203 V279" fill="none" stroke="#111d38" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M525 293 V331" fill="none" stroke="#111d38" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M580 345 V407" fill="none" stroke="#111d38" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M16 378 H1124" stroke="#111d38" stroke-width="1" opacity=".5"/>
+<rect x="805.0" y="366" width="190" height="24" fill="white"/>
+<text x="900" y="384" fill="#111d38" font-size="16" font-weight="400" text-anchor="middle">ユーザのアドレス空間</text>
+<text x="660" y="184" fill="#111d38" font-size="16" font-weight="400" text-anchor="end">スケジューラコンテキスト</text>
+<text x="660" y="222" fill="#111d38" font-size="16" font-weight="400" text-anchor="end">プロセスコンテキスト（init）</text>
+</g>
+</svg>

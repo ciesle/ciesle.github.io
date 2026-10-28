@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="924" height="1100" viewBox="0 0 924 1100" role="img" aria-labelledby="title desc">
+<title id="title">メモリレイアウト（カーネル）</title>
+<desc id="desc">右端に仮想アドレス全体と、PHYSTOP以下の物理アドレスのダイレクトマップ範囲を縦書きの矢印で示す。guard pageは枠なし。kstack(1)とPHYSTOPの間は広い省略領域を置く。kallocは4行分とし、両端と中央左寄りの説明文の周囲に余白を残す点線で割当ブロックを示す。kernelのテキスト領域はentry.Sを含む。virtio disk領域とKERN_BASE直下の空白はuart0領域と同じ高さ。各領域の寸法は実際のサイズ比を表さない。</desc>
+<defs><marker id="range" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse"><path d="M0 0 L6 3 L0 6 Z" fill="#111d38"/></marker><marker id="allocation" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#111d38"/></marker></defs>
+<rect width="924" height="1100" fill="white"/>
+<g font-family="Noto Sans JP, sans-serif" transform="translate(0,-24)">
+<text x="16" y="50" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">アドレス</text>
+<text x="184" y="50" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">メモリ領域</text>
+<path d="M174 72 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="78" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x4_000_000_000</text>
+<rect x="192" y="60" width="61" height="24" fill="white"/>
+<text x="198" y="78" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">MAXVA</text>
+<rect x="184" y="88" width="596" height="74" fill="#111d38"/>
+<text x="198" y="112" fill="white" font-size="16" font-weight="400" text-anchor="start">trampoline：</text>
+<text x="304" y="112" fill="white" font-size="16" font-weight="400" text-anchor="start">カーネルとユーザのページテーブル切替時に使う、</text>
+<text x="304" y="136" fill="white" font-size="16" font-weight="400" text-anchor="start">同じ仮想アドレスに同じコードがマップされた領域</text>
+<g transform="translate(0,32)">
+<path d="M174 142 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="148" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x3_fff_ffe_000</text>
+<text x="482.0" y="165" fill="#25324a" font-size="16" font-weight="400" text-anchor="middle">guard page</text>
+<rect x="184" y="176" width="596" height="44" fill="#3d5773"/>
+<text x="198" y="204.0" fill="white" font-size="16" font-weight="400" text-anchor="start">kstack(0)：プロセス0のカーネルスタック</text>
+<text x="482.0" y="242" fill="#25324a" font-size="16" font-weight="400" text-anchor="middle">guard page</text>
+<rect x="184" y="252" width="596" height="44" fill="#3d5773"/>
+<text x="198" y="280.0" fill="white" font-size="16" font-weight="400" text-anchor="start">kstack(1)：プロセス1のカーネルスタック</text>
+<text x="16" y="350" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">...</text>
+<text x="482" y="350" fill="#25324a" font-size="16" font-weight="400" text-anchor="middle">...</text>
+<g transform="translate(0,-64)">
+<path d="M174 456 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="462" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x88_000_000</text>
+<rect x="192" y="444" width="79" height="24" fill="white"/>
+<text x="198" y="462" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">PHYSTOP</text>
+<rect x="184" y="468" width="596" height="128" fill="#e9eff3"/>
+<text x="198" y="538" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">kallocで割り当てるエリア</text>
+<text x="16" y="538" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">...</text>
+<path d="M196 500 H768" stroke="#111d38" stroke-width="1" stroke-dasharray="4 5" opacity=".6"/>
+<path d="M460 532 H768" stroke="#111d38" stroke-width="1" stroke-dasharray="4 5" opacity=".6"/>
+<path d="M196 564 H768" stroke="#111d38" stroke-width="1" stroke-dasharray="4 5" opacity=".6"/>
+<path d="M174 618 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="624" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">END</text>
+<rect x="192" y="606" width="166" height="24" fill="white"/>
+<text x="198" y="624" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">kernelエリアの終端</text>
+<rect x="184" y="630" width="596" height="42" fill="#3d5773"/>
+<text x="198" y="657.0" fill="white" font-size="16" font-weight="400" text-anchor="start">stack0：schedulerの使うスタック</text>
+<rect x="184" y="680" width="596" height="100" fill="#111d38"/>
+<text x="198" y="706" fill="white" font-size="16" font-weight="400" text-anchor="start">kernelのテキスト</text>
+<rect x="198" y="724" width="568" height="42" fill="none" stroke="white" stroke-width="1"/>
+<text x="212" y="750" fill="white" font-size="16" font-weight="400" text-anchor="start">entry.S</text>
+<path d="M174 802 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="808" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x80_000_000</text>
+<rect x="192" y="790" width="97" height="24" fill="white"/>
+<text x="198" y="808" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">KERN_BASE</text>
+<rect x="184" y="836" width="596" height="34" fill="#8294ad"/>
+<text x="198" y="859.0" fill="#111d38" font-size="16" font-weight="400" text-anchor="start">virtio disk用領域</text>
+<path d="M174 882 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="888" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x10_001_000</text>
+<rect x="184" y="894" width="596" height="34" fill="#8294ad"/>
+<text x="198" y="917.0" fill="#111d38" font-size="16" font-weight="400" text-anchor="start">uart0用領域</text>
+<path d="M174 940 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="946" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x10_000_000</text>
+<rect x="184" y="952" width="596" height="34" fill="#8294ad"/>
+<text x="198" y="975.0" fill="#111d38" font-size="16" font-weight="400" text-anchor="start">PLIC用領域</text>
+<path d="M174 998 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="1004" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x0C_000_000</text>
+<rect x="184" y="1010" width="596" height="34" fill="#8294ad"/>
+<text x="198" y="1033.0" fill="#111d38" font-size="16" font-weight="400" text-anchor="start">CLINT用領域</text>
+<path d="M174 1056 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="1062" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x02_000_000</text>
+<rect x="184" y="1068" width="596" height="34" fill="#becfdc"/>
+<text x="198" y="1091.0" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">boot ROM</text>
+<path d="M174 1114 H780" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="1120" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x00_001_000</text>
+</g></g>
+<path d="M780 496 C812 496 812 157 786.364 131.364" fill="none" stroke="#111d38" stroke-width="1.5" marker-end="url(#allocation)"/>
+<path d="M780 496 C804 496 804 254 786.364 236.364" fill="none" stroke="#111d38" stroke-width="1.5" marker-end="url(#allocation)"/>
+<path d="M780 496 C796 496 796 322 786.364 312.364" fill="none" stroke="#111d38" stroke-width="1.5" marker-end="url(#allocation)"/>
+<path d="M808 426 V1080" fill="none" stroke="#111d38" stroke-width="2" marker-start="url(#range)" marker-end="url(#range)"/>
+<text x="834" y="641.0" fill="#111d38" font-size="16" text-anchor="start" writing-mode="vertical-rl" text-orientation="mixed">物理アドレスとダイレクトマップ</text>
+<path d="M872 74 V1080" fill="none" stroke="#111d38" stroke-width="2" marker-start="url(#range)" marker-end="url(#range)"/>
+<text x="898" y="537.0" fill="#111d38" font-size="16" text-anchor="start" writing-mode="vertical-rl" text-orientation="mixed">仮想アドレス</text>
+</g>
+<g font-family="Noto Sans JP, sans-serif"><rect x="235.5" y="1076" width="12" height="12" fill="#111d38"/><text x="253.5" y="1088" fill="#25324a" font-size="16">コード</text><rect x="329.5" y="1076" width="12" height="12" fill="#3d5773"/><text x="347.5" y="1088" fill="#25324a" font-size="16">スタック</text><rect x="439.5" y="1076" width="12" height="12" fill="#e9eff3"/><text x="457.5" y="1088" fill="#25324a" font-size="16">ヒープ</text><rect x="533.5" y="1076" width="12" height="12" fill="#8294ad"/><text x="551.5" y="1088" fill="#25324a" font-size="16">デバイス</text><rect x="643.5" y="1076" width="12" height="12" fill="#becfdc"/><text x="661.5" y="1088" fill="#25324a" font-size="16">ROM</text></g>
+</svg>

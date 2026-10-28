@@ -1,0 +1,136 @@
+.main-container main {
+  min-width: 0;
+}
+.main-container main .blog-content .guidance-content {
+  min-width: 0;
+}
+.main-container main .blog-content .guidance-content .guidance-speakerdeck {
+  position: relative;
+  width: 100%;
+  margin-left: 0;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+.main-container main .blog-content .guidance-content .guidance-speakerdeck iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.main-container main .blog-content .guidance-content .guidance-slide-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.7fr);
+  gap: 24px;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+}
+.main-container main .blog-content .guidance-content .guidance-slide-image,
+.main-container main .blog-content .guidance-content .guidance-photo {
+  min-width: 0;
+  margin: 24px 0;
+}
+.main-container main .blog-content .guidance-content .guidance-slide-image img,
+.main-container main .blog-content .guidance-content .guidance-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.main-container main .blog-content .guidance-content .guidance-slide-image {
+  margin-top: 0;
+  justify-self: end;
+  width: 100%;
+}
+.main-container main .blog-content .guidance-content .guidance-slide-image svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.main-container main .blog-content .guidance-content .guidance-project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  -webkit-column-gap: 56px;
+  -moz-column-gap: 56px;
+  column-gap: 56px;
+  row-gap: 28px;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+}
+.main-container main .blog-content .guidance-content .guidance-project-column {
+  min-width: 0;
+}
+.main-container main .blog-content .guidance-content .guidance-project-column > section + section {
+  margin-top: 32px;
+}
+.main-container main .blog-content .guidance-content .guidance-models {
+  margin: 24px 0;
+}
+.main-container main .blog-content .guidance-content .guidance-model {
+  min-width: 0;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #dce4f1;
+  border-radius: 8px;
+  background: #fff;
+}
+.main-container main .blog-content .guidance-content .guidance-model__viewport {
+  width: 100%;
+  min-width: 0;
+  height: clamp(280px, 38vw, 380px);
+  -ms-touch-action: none;
+  touch-action: none;
+  border-radius: 4px;
+  background: #f7f9fc;
+}
+.main-container main .blog-content .guidance-content .guidance-model__status {
+  margin: 8px 0 0;
+  font-size: 0.875em;
+}
+.main-container main .blog-content .guidance-content .guidance-model figcaption {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.875em;
+}
+.main-container main .blog-content .guidance-content .guidance-model figcaption a {
+  color: #111d38;
+}
+.main-container main .blog-content .guidance-content .guidance-model button {
+  padding: 4px 8px;
+  border: 1px solid #111d38;
+  border-radius: 4px;
+  background: #fff;
+  color: #111d38;
+  font: inherit;
+  cursor: pointer;
+}
+.main-container main .blog-content .guidance-content .guidance-model button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+.main-container main .blog-content .guidance-content .guidance-gist {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .main-container main .blog-content .guidance-content .guidance-slide-layout,
+  .main-container main .blog-content .guidance-content .guidance-project-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .main-container main .blog-content .guidance-content .guidance-slide-image {
+    justify-self: start;
+  }
+}

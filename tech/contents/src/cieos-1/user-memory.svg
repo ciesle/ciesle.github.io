@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="570" viewBox="0 0 880 570" role="img" aria-labelledby="title desc">
+<title id="title">メモリレイアウト（ユーザ）</title>
+<desc id="desc">仮想アドレス全体の範囲を右の矢印で示す。上部にtrampoline、コンテキストスイッチの際にレジスタなどを保存するtrapframe、その下にheap、stack、dataとbss、textを並べる。領域の種類に対応する色をカーネル図と共通にし、MAXVAなどの境界は線で表す。各領域の寸法は実際のサイズ比を表さない。</desc>
+<defs><marker id="range" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse"><path d="M0 0 L6 3 L0 6 Z" fill="#111d38"/></marker><marker id="allocation" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#111d38"/></marker></defs>
+<rect width="880" height="570" fill="white"/>
+<g font-family="Noto Sans JP, sans-serif" transform="translate(0,-24)">
+<text x="16" y="50" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">アドレス</text>
+<text x="240" y="50" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">メモリ領域</text>
+<path d="M230 72 H680" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="78" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x4_000_000_000</text>
+<rect x="248" y="60" width="61" height="24" fill="white"/>
+<text x="254" y="78" fill="#111d38" font-size="16" font-weight="700" text-anchor="start">MAXVA</text>
+<rect x="240" y="88" width="440" height="42" fill="#111d38"/>
+<text x="254" y="115.0" fill="white" font-size="16" font-weight="400" text-anchor="start">trampoline</text>
+<path d="M230 142 H680" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="148" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x3_fff_ffe_000</text>
+<rect x="240" y="154" width="440" height="64" fill="#becfdc"/>
+<text x="254" y="178" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">trapframe：</text>
+<text x="360" y="178" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">コンテキストスイッチの際に、</text>
+<text x="360" y="202" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">レジスタなどを保存</text>
+<path d="M230 230 H680" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="236" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x3_fff_ffd_000</text>
+<text x="16" y="272" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">...</text>
+<text x="460" y="272" fill="#25324a" font-size="16" font-weight="400" text-anchor="middle">...</text>
+<rect x="240" y="294" width="440" height="60" fill="#e9eff3"/>
+<text x="254" y="330.0" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">expandable heap</text>
+<rect x="240" y="362" width="440" height="54" fill="#3d5773"/>
+<text x="254" y="395.0" fill="white" font-size="16" font-weight="400" text-anchor="start">fixed-size-stack</text>
+<rect x="240" y="424" width="440" height="54" fill="#becfdc"/>
+<text x="254" y="457.0" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">original data, bss</text>
+<rect x="240" y="486" width="440" height="54" fill="#111d38"/>
+<text x="254" y="519.0" fill="white" font-size="16" font-weight="400" text-anchor="start">text</text>
+<path d="M230 552 H680" fill="none" stroke="#111d38" stroke-width="1.5"/>
+<text x="16" y="558" fill="#25324a" font-size="16" font-weight="400" text-anchor="start">0x0</text>
+<path d="M708 74 V550" fill="none" stroke="#111d38" stroke-width="2" marker-start="url(#range)" marker-end="url(#range)"/>
+<text x="734" y="272.0" fill="#111d38" font-size="16" text-anchor="start" writing-mode="vertical-rl" text-orientation="mixed">仮想アドレス</text>
+</g>
+<g font-family="Noto Sans JP, sans-serif"><rect x="242.0" y="546" width="12" height="12" fill="#111d38"/><text x="260.0" y="558" fill="#25324a" font-size="16">コード</text><rect x="336.0" y="546" width="12" height="12" fill="#3d5773"/><text x="354.0" y="558" fill="#25324a" font-size="16">スタック</text><rect x="446.0" y="546" width="12" height="12" fill="#becfdc"/><text x="464.0" y="558" fill="#25324a" font-size="16">保存データ</text><rect x="572.0" y="546" width="12" height="12" fill="#e9eff3"/><text x="590.0" y="558" fill="#25324a" font-size="16">ヒープ</text></g>
+</svg>

@@ -48,7 +48,10 @@ function measure() {
     Object.assign(body, body.sizeAt(body.y));
   }
   ready = placeBodies(bodies, bounds);
-  if (ready) bodies.forEach(drawBody);
+  if (ready) {
+    bodies.forEach(drawBody);
+    document.documentElement.classList.remove('water-navigation-pending');
+  }
 }
 
 function tick(time) {

@@ -22,22 +22,24 @@
 				<a href="../">薊畑</a>
 				<span class="tab-close">×</span>
 			</h1>
-			<h1>
+			<h1 class="is-active" aria-current="page">
 				プロフィール
 				<span class="tab-close">×</span>
 			</h1>
+			<h1><a href="/profile/contents/products.html">過去の制作物</a></h1>
+			<h1><a href="/profile/contents/awards.html">受賞歴・発表歴・資格など</a></h1>
+			<h1><a href="/profile/contents/history.html">経歴</a></h1>
 		</div>
 	</header>
 
 
 	<main class="profile-main">
-		<div class="terminal" id="terminal" aria-label="ターミナル">
+		<div class="terminal" id="terminal" aria-label="ターミナル" data-level="23">
 			<div class="term-screen" id="term-screen" aria-live="polite">
 				<form class="input-line" id="input-line" autocomplete="off">
 					<span class="prompt-user" id="prompt">guest@ciesle-field</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>&nbsp;<span class="command-field"><input class="cmd" id="cmd" type="text" aria-label="コマンド" enterkeyhint="send" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"><span id="cursor-measure" class="cursor-measure" aria-hidden="true"></span><span id="terminal-cursor" class="terminal-cursor" aria-hidden="true"></span></span>
 				</form>
 			</div>
-			<button id="stop-command" class="stop-command" type="button" hidden>中断（Ctrl+C）</button>
 		</div>
 	</main>
 
