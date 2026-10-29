@@ -1,9 +1,9 @@
 (function () {
-	const filesList = ['about.txt'];
+	const files = { 'about.txt': 'このページについて' };
 	const directories = {
-		products: '/profile/contents/products.html',
-		awards: '/profile/contents/awards.html',
-		history: '/profile/contents/history.html',
+		products: { href: '/profile/contents/products.html', description: '過去の制作物' },
+		awards: { href: '/profile/contents/awards.html', description: '受賞歴' },
+		history: { href: '/profile/contents/history.html', description: '経歴' },
 	};
 	const terminal = document.getElementById('terminal');
 	const introduction = `名前: ciesle(a.k.a. thistle)\n職業: 大学生\nレベル: ${terminal.dataset.level}\nTwitter: @cies1e\nGitHub: @ciesle\n所属: 東京大学工学部計数工学科\n所持資格: ネットワークスペシャリスト\n趣味: プログラミング、読書、神社巡り他`;
@@ -92,8 +92,8 @@
 			appendLine('cat: ' + name + ': Is a directory');
 			return;
 		}
-		// only allow reading files that are declared in filesList
-		if (!filesList.includes(name)) {
+		// Only allow reading declared files.
+		if (!Object.hasOwn(files, name)) {
 			appendLine('cat: ' + name + ': No such file or directory');
 			ensureScrollBottom();
 			return;
@@ -152,8 +152,12 @@
 		}
 		if (cmd === 'pwd') { appendLine('ciesle-field (ciesle\'s homepage)'); ensureScrollBottom(); return; }
 		if (cmd === 'ls') {
-			filesList.forEach(file => appendLine(file));
-			Object.keys(directories).forEach(directory => appendLine(directory + '/'));
+			const entries = [
+				...Object.entries(files),
+				...Object.entries(directories).map(([name, directory]) => [name + '/', directory.description]),
+			];
+			const width = Math.max(...entries.map(([name]) => name.length));
+			entries.forEach(([name, description]) => appendLine(`${name.padEnd(width)} - ${description}`));
 			return;
 		}
 		if (cmd === 'cd') {
@@ -164,7 +168,7 @@
 				appendLine('cd: ' + args[1] + ': ディレクトリが見つかりません');
 				return;
 			}
-			window.location.href = directories[directory];
+			window.location.href = directories[directory].href;
 			return;
 		}
 		if (cmd === 'cat') {

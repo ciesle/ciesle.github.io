@@ -14,6 +14,7 @@
   <meta name="twitter:image" content="/common/icon.png">
   <script src="/common/waves.js" type="module"></script>
   <script src="/common/section-menu.js" defer></script>
+  <script src="/common/article-images.js" defer></script>
 </head>
 <body>
   
@@ -188,8 +189,8 @@
   <p>このような実装になっている理由は、sleepのための判定と、実際のsleep処理を分ける必要があるからだと理解することができる。</p>
   <p>まず取得しているロックについての説明から行う。例えばwait中のsleep処理では、親がsleepを継続するための条件は、「まだ実行中の子が存在し、かつすでに終了した子が存在しない」ことである。その判定を全プロセスを走査して行うわけであるが、</p>
   <figure class="article-figure article-diagram">
-    <div class="article-diagram__scroll" tabindex="0" role="region" aria-label="図（横にスクロールできます）">
-      <img style="width: 50em; min-width: 0; margin-inline: auto" src="/tech/contents/src/cieos-1/race.svg" alt="子が終了して親を起こすタイミングと、親の状態確認が競合する順序">
+    <div class="article-diagram__frame">
+      <img src="/tech/contents/src/cieos-1/race.svg" alt="子が終了して親を起こすタイミングと、親の状態確認が競合する順序">
     </div>
   </figure>
   <p>というような順で処理が行われると、子<code>p</code>の起床は他の子が起床するまで検知されないことになる。
@@ -204,8 +205,8 @@
   <p>この2つを両立させるには、ロック解放の時点でwakeup通知を受け取れるようにしておく必要がある。
 xv6では、ロック解放以前にフラグを設定し、子から設定可能にしておくことで、通知の取り漏らしを防いでいる。</p>
   <figure class="article-figure article-diagram">
-    <div class="article-diagram__scroll" tabindex="0" role="region" aria-label="図（横にスクロールできます）">
-      <img style="width: 58.25em; min-width: 0; margin-inline: auto" src="/tech/contents/src/cieos-1/sleep-prepare.svg" alt="ロック保持中に条件チェックとsleep_prepareを行い、ロック解放後の通知をフラグへ保存してsleep時に確認する流れ">
+    <div class="article-diagram__frame">
+      <img src="/tech/contents/src/cieos-1/sleep-prepare.svg" alt="ロック保持中に条件チェックとsleep_prepareを行い、ロック解放後の通知をフラグへ保存してsleep時に確認する流れ">
     </div>
   </figure>
   <p>また、sleep内でのフラグの確認とschedの呼び出しの間にwakeupが呼ばれても状態が崩れるので、ここでは親プロセスについてのロックを取得することで競合を防いでいる（このロックはscheduler内で開放される。）。
@@ -238,8 +239,8 @@ xv6では、ロック解放以前にフラグを設定し、子から設定可�
       <li>プロセスに到着</li>
     </ol>
     <figure class="article-figure article-diagram">
-      <div class="article-diagram__scroll" tabindex="0" role="region" aria-label="図（横にスクロールできます）">
-        <img style="width: 71.25em; max-width: 100%; min-width: 0; margin-inline: auto" src="/tech/contents/src/cieos-1/startup.svg" alt="関数ごとの横方向のライフラインと実行区間を並べ、遷移を縦矢印で示したカーネル初期化のシーケンス図">
+      <div class="article-diagram__frame">
+        <img src="/tech/contents/src/cieos-1/startup.svg" alt="関数ごとの横方向のライフラインと実行区間を並べ、遷移を縦矢印で示したカーネル初期化のシーケンス図">
       </div>
     </figure>
   </details>
@@ -247,16 +248,16 @@ xv6では、ロック解放以前にフラグを設定し、子から設定可�
     <summary><h3>メモリレイアウト（カーネル）<span class="article-fold__indicator" aria-hidden="true"></span></h3></summary>
     <p>一つの物理アドレスに対して、2つ以上の仮想アドレスがマップされている場合に注意が必要。例えばtrampolineは、END~PHYSTOPのどこかの仮想（物理）アドレスか、0x3_fff_ffe_000からアクセスできる</p>
     <figure class="article-figure article-diagram">
-      <div class="article-diagram__scroll" tabindex="0" role="region" aria-label="図（横にスクロールできます）">
-        <img style="width: 57.75em; max-width: 100%; min-width: 0; margin-inline: auto" src="/tech/contents/src/cieos-1/kernel-memory.svg" alt="カーネルのメモリ領域と対応するアドレス">
+      <div class="article-diagram__frame">
+        <img src="/tech/contents/src/cieos-1/kernel-memory.svg" alt="カーネルのメモリ領域と対応するアドレス">
       </div>
     </figure>
   </details>
   <details class="article-fold">
     <summary><h3>メモリレイアウト（ユーザ）<span class="article-fold__indicator" aria-hidden="true"></span></h3></summary>
     <figure class="article-figure article-diagram">
-      <div class="article-diagram__scroll" tabindex="0" role="region" aria-label="図（横にスクロールできます）">
-        <img style="width: 55em; max-width: 100%; min-width: 0; margin-inline: auto" src="/tech/contents/src/cieos-1/user-memory.svg" alt="ユーザメモリ領域と固定配置のtrapframe・trampoline">
+      <div class="article-diagram__frame">
+        <img src="/tech/contents/src/cieos-1/user-memory.svg" alt="ユーザメモリ領域と固定配置のtrapframe・trampoline">
       </div>
     </figure>
   </details>
@@ -286,8 +287,8 @@ xv6では、ロック解放以前にフラグを設定し、子から設定可�
         <li>userに戻る</li>
       </ol>
       <figure class="article-figure article-diagram">
-        <div class="article-diagram__scroll" tabindex="0" role="region" aria-label="図（横にスクロールできます）">
-          <img style="width: 71.25em; max-width: 100%; min-width: 0; margin-inline: auto" src="/tech/contents/src/cieos-1/timer.svg" alt="タイマー割り込みからスケジューラを経てユーザ空間へ戻る流れ">
+        <div class="article-diagram__frame">
+          <img src="/tech/contents/src/cieos-1/timer.svg" alt="タイマー割り込みからスケジューラを経てユーザ空間へ戻る流れ">
         </div>
       </figure>
     </section>
@@ -316,8 +317,8 @@ xv6では、ロック解放以前にフラグを設定し、子から設定可�
       <li>返る先では新しいpagetableが設定されている。/bin/shのentry pointから動き出す</li>
     </ol>
     <figure class="article-figure article-diagram">
-      <div class="article-diagram__scroll" tabindex="0" role="region" aria-label="図（横にスクロールできます）">
-        <img style="width: 71.25em; max-width: 100%; min-width: 0; margin-inline: auto" src="/tech/contents/src/cieos-1/exec.svg" alt="execシステムコールで新しいページテーブルと実行ファイルに切り替える流れ">
+      <div class="article-diagram__frame">
+        <img src="/tech/contents/src/cieos-1/exec.svg" alt="execシステムコールで新しいページテーブルと実行ファイルに切り替える流れ">
       </div>
     </figure>
   </details>

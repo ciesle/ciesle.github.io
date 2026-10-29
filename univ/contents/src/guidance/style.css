@@ -123,6 +123,17 @@
 .main-container main .blog-content .guidance-content .guidance-gist {
   min-width: 0;
   overflow-wrap: anywhere;
+  font-size: 0.875em;
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  text-size-adjust: none;
+}
+.main-container main .blog-content .guidance-content .guidance-gist .gist {
+  max-width: 100%;
+}
+.main-container main .blog-content .guidance-content .guidance-gist .gist, .main-container main .blog-content .guidance-content .guidance-gist .gist * {
+  font-size: inherit !important;
 }
 
 @media (max-width: 700px) {
